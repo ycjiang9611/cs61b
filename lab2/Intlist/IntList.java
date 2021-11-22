@@ -87,6 +87,7 @@ public class IntList {
         }
         else {
             while (A.rest != null) {
+                A.first = A.first;
                 A = A.rest;
             }
             A.rest = B;

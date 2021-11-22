@@ -86,13 +86,13 @@ public class IntList {
             return B;
         }
         else {
+            IntList ptr = A;
             while (A.rest != null) {
-                A.first = A.first;
                 A = A.rest;
             }
             A.rest = B;
+            return ptr;
         }
-        return A;
     }
 
     /**

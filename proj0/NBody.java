@@ -1,5 +1,5 @@
 public class NBody {
-  public static String imageToDraw = "images/starfield.jpg";
+  private static String imageToDraw = "images/starfield.jpg";
 
   public static void main(String[] args) {
     //String first = StdIn.readLine();

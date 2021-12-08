@@ -1,9 +1,11 @@
 public class LinkedListDeque<T> implements Deque<T> {
 
     // try circular approach, using only one sentinel node.
+    // instance variables.
     private final Node<T> sentinel;
     private int size;
 
+        // nested class.
         public static class Node<T> {
             public T item;
             public Node<T> next;
@@ -26,7 +28,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     // constructor
     public LinkedListDeque() {
         size = 0;
-        this.sentinel = new Node(1, null, null);
+        this.sentinel = new Node(1, null, null); // create sentinel node for all LinkedListDeque instances.
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
     }
@@ -34,13 +36,17 @@ public class LinkedListDeque<T> implements Deque<T> {
     @Override
     public void addFirst(T item) {
         size += 1;
-        sentinel.next = new Node<>(item, sentinel.next, sentinel);
+        Node<T> p = new Node<>(item, sentinel.next, sentinel); // create a new Node and link p's next to s.n, prev to s.
+        sentinel.next.prev = p; // because we are using doubly linked list, we need to link another two arrows, from s.n to p
+        sentinel.next = p; // and from s to p.
     }
 
     @Override
     public void addLast(T item) {
         size += 1;
-        sentinel.prev = new Node<>(item, sentinel, sentinel.prev);
+        Node<T> p = new Node<>(item, sentinel, sentinel.prev);
+        sentinel.prev.next = p;
+        sentinel.prev = p;
     }
 
     @Override
@@ -55,7 +61,10 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public void printDeque() {
-        Node<T> cur = sentinel.next;
+        if (isEmpty()) {
+            return;
+        }
+        Node<T> cur = sentinel.next; // the first Node.
         while (cur != sentinel) {
             System.out.print(cur.item);
             System.out.print(" ");
@@ -66,27 +75,27 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public T removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
-        Node<T> rem = sentinel.next;
-        T ele = rem.item;
+        Node<T> rem = sentinel.next; // get the first Node.
+        sentinel.next.next.prev = sentinel; // LHS is the pointer(.next or .prev area), RHS is the Node be pointed.
         sentinel.next = sentinel.next.next;
         size -= 1;
-        return ele;
+        return rem.item;
     }
 
     @Override
     public T removeLast() {
         // remember to check case with 0 and 1 element for circular sentinel!
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
-        Node<T> rem = sentinel.prev;
-        T ele = rem.item;
+        Node<T> rem = sentinel.prev; // get the last Node.
         sentinel.prev.prev.next = sentinel;
+        sentinel.prev = sentinel.prev.prev;
         size -= 1;
-        return ele;
+        return rem.item;
     }
 
     @Override

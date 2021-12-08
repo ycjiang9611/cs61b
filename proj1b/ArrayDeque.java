@@ -71,7 +71,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void printDeque() {
-        if (size == 0) {
+        if (isEmpty()) {
             return;
         }
         int first = (nextFirst + 1) % items.length;

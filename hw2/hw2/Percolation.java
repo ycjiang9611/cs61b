@@ -17,7 +17,7 @@ public class Percolation {
     private int bottom;
 
     private int twoDToOneD(int r, int c) {
-        return r*size + c;
+        return r * size + c;
     }
 
     public Percolation(int N) {
@@ -32,21 +32,21 @@ public class Percolation {
             }
         }
         cnt = 0;
-        top = size*size;
-        bottom = size*size + 1;
-        uf = new WeightedQuickUnionUF(size*size + 2);
+        top = size * size;
+        bottom = size * size + 1;
+        uf = new WeightedQuickUnionUF(size * size + 2);
         // virtual top site connected to the top row
         for (int k = 0; k < size; k += 1) {
             uf.union(top, k);
         }
         // virtual bottom site connected to the bottom row
-        for (int k = twoDToOneD(size-1, 0); k < size*size; k += 1) {
+        for (int k = twoDToOneD(size - 1, 0); k < size * size; k += 1) {
             uf.union(bottom, k);
         }
     }
 
     public void open(int row, int column) {
-        if (row < 0 || row > size-1 || column < 0 || column > size-1) {
+        if (row < 0 || row > size - 1 || column < 0 || column > size - 1) {
             throw new IndexOutOfBoundsException();
         }
         if (!isOpen(row, column)) {
@@ -72,14 +72,14 @@ public class Percolation {
     }
 
     public boolean isOpen(int row, int column) {
-        if (row < 0 || row > size-1 || column < 0 || column > size-1) {
+        if (row < 0 || row > size - 1 || column < 0 || column > size - 1) {
             throw new IndexOutOfBoundsException();
         }
         return arr[row][column];
     }
 
     public boolean isFull(int row, int column) {
-        if (row < 0 || row > size-1 || column < 0 || column > size-1) {
+        if (row < 0 || row > size - 1 || column < 0 || column > size - 1) {
             throw new IndexOutOfBoundsException();
         }
         if (isOpen(row, column)) {
@@ -93,7 +93,10 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return uf.connected(top, bottom);
+        if (cnt > 0) {
+            return uf.connected(top, bottom);
+        }
+        return false;
     }
 
     public static void main(String[] args) {

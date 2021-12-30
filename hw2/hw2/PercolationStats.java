@@ -21,7 +21,7 @@ public class PercolationStats {
             while (!pc.percolates()) {
                 pc.open(StdRandom.uniform(size), StdRandom.uniform(size));
             }
-            sample[i] = pc.numberOfOpenSites()*1.0/(size*size);
+            sample[i] = pc.numberOfOpenSites() * 1.0 / (size * size);
             i += 1;
         }
     }
@@ -35,11 +35,11 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        return mean()-1.96*stddev()/Math.sqrt(times);
+        return mean() - 1.96 * stddev() / Math.sqrt(times);
     }
 
     public double confidenceHigh() {
-        return mean()+1.96*stddev()/Math.sqrt(times);
+        return mean() + 1.96 * stddev() / Math.sqrt(times);
     }
 
 }

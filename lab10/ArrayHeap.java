@@ -28,7 +28,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int leftIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2*i;
     }
 
     /**
@@ -36,7 +36,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int rightIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2*i + 1;
     }
 
     /**
@@ -44,7 +44,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int parentIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return i/2;
     }
 
     /**
@@ -108,6 +108,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
+        while (min(index, parentIndex(index)) == index && index > 1) {
+            swap(index, parentIndex(index));
+            index = parentIndex(index);
+        }
         return;
     }
 
@@ -119,6 +123,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
+        while (leftIndex(index) <= size) {
+            int sindex = leftIndex(index);
+            if (sindex < size && min(sindex, rightIndex(index)) == rightIndex(index)) {
+                sindex = rightIndex(index);
+            }
+            if (min(index, sindex) == index) {
+                break;
+            }
+            swap(index, sindex);
+            index = sindex;
+        }
         return;
     }
 
@@ -134,6 +149,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
 
         /* TODO: Your code here! */
+        // size += 1;
+        contents[++size] = new Node(item, priority);
+        swim(size);
     }
 
     /**
@@ -143,6 +161,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T peek() {
         /* TODO: Your code here! */
+        if (size > 0) {
+            return contents[1].item();
+        }
         return null;
     }
 
@@ -158,6 +179,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T removeMin() {
         /* TODO: Your code here! */
+        if (size > 0) {
+            T res = contents[1].item();
+            swap(1, size);
+            size -= 1;
+            sink(1);
+            contents[size+1] = null;
+            return res;
+        }
         return null;
     }
 
